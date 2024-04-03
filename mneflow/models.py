@@ -164,11 +164,11 @@ class BaseModel():
        # Initialize optimizer
         if self.dataset.h_params["target_type"] in ['float', 'signal']:
             self.params.setdefault("loss", tf.keras.losses.MeanSquaredError(name='MSE'))
-            self.params.setdefault("metrics", tf.keras.metrics.RootMeanSquaredError(name="RMSE"))
+            self.params.setdefault("metrics", [tf.keras.metrics.RootMeanSquaredError(name="RMSE")])
 
         elif self.dataset.h_params["target_type"] in ['int']:
-            self.params.setdefault("loss", [tf.keras.losses.CategoricalCrossentropy(from_logits=True,
-                                                                                   name='cce')])
+            self.params.setdefault("loss", tf.keras.losses.CategoricalCrossentropy(from_logits=True,
+                                                                                   name='cce'))
             self.params.setdefault("metrics", [tf.keras.metrics.CategoricalAccuracy(name="cat_ACC")])
 
         self.km.compile(optimizer=self.params["optimizer"],
